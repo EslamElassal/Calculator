@@ -15,7 +15,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-  public class Calculator extends Design{
+ public class Calculator extends Design{
 @Override
 public void start(Stage primaryStage) throws Exception {
 	primaryStage=Show(primaryStage);
