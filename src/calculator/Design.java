@@ -1,5 +1,5 @@
 package calculator;
-import java.util.Stack;
+ import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -122,7 +122,7 @@ Up_N(button[6], names[6]);
 Sin(button[2], names[2]);
 Cos(button[3], names[3]);
 Tan(button[4], names[4]);
-P_(button[9], names[9]);
+Factoral(button[9], names[9]);
 OPen_Arc(button[7], names[7]);
 Closed_Arc(button[8], names[8]);
 ans(button[28],names[28]);
@@ -409,13 +409,13 @@ Screen.setText(Prev);
 protected void PI(Button button , String name)     
 { 
 button.setOnAction(e->{
-      text.setText("");
+       
+text.setText("");
       if(Prev.equals("|"))
                 Prev="";
-      Prev=Screen.getText();
             char arr[]=Prev.toCharArray();
-                          if(arr.length<=20)
-                         {
+                           if(arr.length<=20)
+                           {
       if(Prev.equals("")||Prev.equals(null))
       { Prev="p";
      Screen.setText(Prev);}
@@ -430,13 +430,86 @@ button.setOnAction(e->{
  
  else
  {
-   Screen.setText("Error Expression");
- }}
+   Screen.setText("Error");
+ }
+                           }
 });
 }
 protected void Sqrt(Button button , String name)     
 {
-button.setOnAction(e->{
+   
+    button.setOnAction(e->{
+    boolean flag=true;//for not duplicate ()
+    text.setText("");
+    if(Prev.equals("|"))
+               Prev=ans;
+    int open=0,closed=0;
+    char arr[]=Prev.toCharArray();
+                           if(arr.length<=20)
+                         {
+      if(Prev.equals("")||Prev.equals(null))
+      { Prev="(r0)";
+     Screen.setText(Prev);}
+      else if(arr[arr.length-1]=='+'||arr[arr.length-1]=='-'||arr[arr.length-1]=='/'||arr[arr.length-1]=='*'||arr[arr.length-1]=='('||arr[arr.length-1]=='^')
+      {   
+   Screen.setText("Error");
+      }
+       
+else {
+          int num = 0;
+  for(int i=arr.length-1;i>=0;i--)
+      {
+      if(arr[i]=='+'||arr[i]=='-'||arr[i]=='/'||arr[i]=='*'||arr[i]==')')
+      { if(arr[i]==')')
+      {
+      for(int j=i;j>=0;j--)
+ {
+    
+     if(arr[j]=='(')
+     open++;
+ else if(arr[j]==')')
+     closed++;
+     if((closed==open)&&open!=0&&closed!=0)
+     {num=j;
+     i=0;
+     flag=false;
+     break;
+     }}
+ }else
+  
+          num=i;break;}
+      }
+  
+   if(num==0)
+  {    Prev="(r"+Prev+")";
+ Screen.setText(Prev);
+  }
+  else
+  {
+      String exp="" ;
+       
+      String NewPrev="";
+     if(!flag)
+         num-=1;
+for(int i=0;i<(arr.length-(arr.length-(num+1)));i++)
+    NewPrev=NewPrev+arr[i];
+Prev=NewPrev;
+        for(int i=num+1;i<arr.length;i++)
+          exp=exp+arr[i];
+        if(!flag)
+                 Prev=Prev+"(r"+exp+")";
+
+            else
+     Prev=Prev+"(r"+exp+")";
+ Screen.setText(Prev);
+  }
+        }
+                         }
+ 
+});
+    
+    
+/*button.setOnAction(e->{
     boolean flag=true;//for not duplicate ()
     text.setText("");
     if(Prev.equals("|"))
@@ -505,35 +578,26 @@ Prev=NewPrev;
         }
  
                          }
-});
+});*/
 }
-protected void OP(Button button , String name)     
-{text.setText("");
- Prev=Screen.getText();
-          if(Prev.endsWith("+")||Prev.endsWith("-")||Prev.endsWith("*")||Prev.endsWith("/"))
-             Screen.setText("Error Syntax");
-          else
-              button.setOnAction(e->{Screen.setText(Prev=Prev+name);});
-            
-          }
 protected void Up_2(Button button , String name)     
 { 
-button.setOnAction(e->{
+ button.setOnAction(e->{
     boolean flag=true;//for not duplicate ()
     text.setText("");
-     if(Prev.equals("|"))
-                Screen.setText("("+ans+"^2)");
-      Prev=Screen.getText();
+    if(Prev.equals("|"))
+               Prev=ans;
     int open=0,closed=0;
     char arr[]=Prev.toCharArray();
-                          if(arr.length<=20)
+                           if(arr.length<=20)
                          {
       if(Prev.equals("")||Prev.equals(null))
       { Prev="(0^2)";
      Screen.setText(Prev);}
       else if(arr[arr.length-1]=='+'||arr[arr.length-1]=='-'||arr[arr.length-1]=='/'||arr[arr.length-1]=='*'||arr[arr.length-1]=='('||arr[arr.length-1]=='^')
       {   
-   Screen.setText("Error Expression");
+      Screen.setText("Error");
+
       }
        
 else {
@@ -589,24 +653,22 @@ Prev=NewPrev;
  
 });
 }
-
 protected void Up_N(Button button , String name)     
-{ button.setOnAction(e->{
+{  button.setOnAction(e->{
     boolean flag=true;//for not duplicate ()
     text.setText("");
-     if(Prev.equals("|"))
-                Screen.setText("("+ans+"^");
-      Prev=Screen.getText();
+    if(Prev.equals("|"))
+               Prev=ans;
     int open=0,closed=0;
     char arr[]=Prev.toCharArray();
-                          if(arr.length<=20)
+                           if(arr.length<=20)
                          {
       if(Prev.equals("")||Prev.equals(null))
       { Prev="(0^";
      Screen.setText(Prev);}
       else if(arr[arr.length-1]=='+'||arr[arr.length-1]=='-'||arr[arr.length-1]=='/'||arr[arr.length-1]=='*'||arr[arr.length-1]=='('||arr[arr.length-1]=='^')
       {   
-   Screen.setText("Error Expression");
+     Screen.setText("Error");
       }
        
 else {
@@ -635,7 +697,7 @@ else {
       }
   
    if(num==0)
-  {    Prev="("+Prev+"^";
+  {    Prev="(r"+Prev+"^";
  Screen.setText(Prev);
   }
   else
@@ -664,23 +726,23 @@ Prev=NewPrev;
 }
 protected void Sin(Button button , String name)     
 { 
-button.setOnAction(e->{
+
+    button.setOnAction(e->{
     boolean flag=true;//for not duplicate ()
     text.setText("");
-     if(Prev.equals("|"))
-                Screen.setText("(s("+ans+"))");
-      Prev=Screen.getText();
-      char limit[]=Prev.toCharArray();
-                         if(limit.length<=20)
-                         {
+    if(Prev.equals("|"))
+               Prev=ans;
     int open=0,closed=0;
     char arr[]=Prev.toCharArray();
+                           if(arr.length<=20)
+                         {
       if(Prev.equals("")||Prev.equals(null))
-      { Prev="(s(0))";
+      { Prev="(s0)";
      Screen.setText(Prev);}
       else if(arr[arr.length-1]=='+'||arr[arr.length-1]=='-'||arr[arr.length-1]=='/'||arr[arr.length-1]=='*'||arr[arr.length-1]=='('||arr[arr.length-1]=='^')
-      {       Screen.setText("Error Expression");
-}
+      {   
+      Screen.setText("Error");
+      }
        
 else {
           int num = 0;
@@ -708,7 +770,7 @@ else {
       }
   
    if(num==0)
-  {    Prev="(s("+Prev+"))";
+  {    Prev="(s"+Prev+")";
  Screen.setText(Prev);
   }
   else
@@ -724,36 +786,37 @@ Prev=NewPrev;
         for(int i=num+1;i<arr.length;i++)
           exp=exp+arr[i];
         if(!flag)
-                 Prev=Prev+"(s("+exp+"))";
+                 Prev=Prev+"(s"+exp+")";
 
             else
-     Prev=Prev+"(s("+exp+"))";
+     Prev=Prev+"(s"+exp+")";
  Screen.setText(Prev);
   }
         }
- 
                          }
+ 
 });
 }
 protected void Cos(Button button , String name)     
 { 
-button.setOnAction(e->{
+
+    button.setOnAction(e->{
     boolean flag=true;//for not duplicate ()
     text.setText("");
     if(Prev.equals("|"))
-                Screen.setText("(c("+ans+"))");
-     Prev=Screen.getText();
+               Prev=ans;
     int open=0,closed=0;
     char arr[]=Prev.toCharArray();
- 
-    if(arr.length<=20)
+                           if(arr.length<=20)
                          {
       if(Prev.equals("")||Prev.equals(null))
-      { Prev="(c(0))";
+      { Prev="(c0)";
      Screen.setText(Prev);}
       else if(arr[arr.length-1]=='+'||arr[arr.length-1]=='-'||arr[arr.length-1]=='/'||arr[arr.length-1]=='*'||arr[arr.length-1]=='('||arr[arr.length-1]=='^')
-      {       Screen.setText("Error Expression");
-}
+      {   
+     Screen.setText("Error");
+
+      }
        
 else {
           int num = 0;
@@ -781,7 +844,7 @@ else {
       }
   
    if(num==0)
-  {    Prev="(c("+Prev+"))";
+  {    Prev="(c"+Prev+")";
  Screen.setText(Prev);
   }
   else
@@ -797,10 +860,10 @@ Prev=NewPrev;
         for(int i=num+1;i<arr.length;i++)
           exp=exp+arr[i];
         if(!flag)
-                 Prev=Prev+"(c("+exp+"))";
+                 Prev=Prev+"(c"+exp+")";
 
             else
-     Prev=Prev+"(c("+exp+"))";
+     Prev=Prev+"(c"+exp+")";
  Screen.setText(Prev);
   }
         }
@@ -810,22 +873,24 @@ Prev=NewPrev;
 }
 protected void Tan(Button button , String name)     
 { 
-button.setOnAction(e->{
+
+    button.setOnAction(e->{
     boolean flag=true;//for not duplicate ()
     text.setText("");
     if(Prev.equals("|"))
-                Screen.setText("(t("+ans+"))");
-     Prev=Screen.getText();
+               Prev=ans;
     int open=0,closed=0;
     char arr[]=Prev.toCharArray();
-                          if(arr.length<=20)
+                           if(arr.length<=20)
                          {
       if(Prev.equals("")||Prev.equals(null))
-      { Prev="(t(0))";
+      { Prev="(t0)";
      Screen.setText(Prev);}
       else if(arr[arr.length-1]=='+'||arr[arr.length-1]=='-'||arr[arr.length-1]=='/'||arr[arr.length-1]=='*'||arr[arr.length-1]=='('||arr[arr.length-1]=='^')
-      {       Screen.setText("Error Expression");
-}
+      {   
+      Screen.setText("Error");
+
+      }
        
 else {
           int num = 0;
@@ -853,7 +918,7 @@ else {
       }
   
    if(num==0)
-  {    Prev="(t("+Prev+"))";
+  {    Prev="(t"+Prev+")";
  Screen.setText(Prev);
   }
   else
@@ -869,10 +934,10 @@ Prev=NewPrev;
         for(int i=num+1;i<arr.length;i++)
           exp=exp+arr[i];
         if(!flag)
-                 Prev=Prev+"(t("+exp+"))";
+                 Prev=Prev+"(t"+exp+")";
 
             else
-     Prev=Prev+"(t("+exp+"))";
+     Prev=Prev+"(t"+exp+")";
  Screen.setText(Prev);
   }
         }
@@ -880,23 +945,24 @@ Prev=NewPrev;
  
 });
 }
-protected void P_(Button button , String name)     
-{ button.setOnAction(e->{
+protected void Factoral(Button button , String name)     
+{ 
+    button.setOnAction(e->{
     boolean flag=true;//for not duplicate ()
     text.setText("");
     if(Prev.equals("|"))
-                Screen.setText("(!("+ans+"))");
-     Prev=Screen.getText();
+               Prev=ans;
     int open=0,closed=0;
     char arr[]=Prev.toCharArray();
-                          if(arr.length<=20)
+                           if(arr.length<=20)
                          {
       if(Prev.equals("")||Prev.equals(null))
       { Prev="(!(0))";
      Screen.setText(Prev);}
       else if(arr[arr.length-1]=='+'||arr[arr.length-1]=='-'||arr[arr.length-1]=='/'||arr[arr.length-1]=='*'||arr[arr.length-1]=='('||arr[arr.length-1]=='^')
       {   
-   Screen.setText("Error Expression");
+      Screen.setText("Error");
+
       }
        
 else {
@@ -948,8 +1014,8 @@ Prev=NewPrev;
  Screen.setText(Prev);
   }
         }
- 
                          }
+ 
 });
 }
 protected void OPen_Arc(Button button , String name)     
@@ -1100,13 +1166,13 @@ Screen.setText(ans+"");
 });
 }
  public static float evaluate(char []tokens)
-    {  char prevchar = 0;
+    {  char prevchar = 0,prevcharmin=0;
     boolean flag=false;
          // Stack for numbers: 'values'
-        
- 
+        int num=0; 
+ int counter=0;
         for (int i = 0; i < tokens.length; i++)
-        {
+        {if(tokens[i]=='%')num=i;
              // Current token is a whitespace, skip it
             if (tokens[i] == ' ')
                 continue;
@@ -1142,13 +1208,51 @@ Screen.setText(ans+"");
                 {
                    if(ops.peek()=='r'||ops.peek()=='c'||ops.peek()=='s'||ops.peek()=='t'||ops.peek()=='!'||ops.peek()=='%')
                     {
-                       values.push(applyOp(ops.pop(), '|', values.pop()));
+                       values.push(applyOp(ops.pop(), '|', values.pop(),num,tokens));
+                       if(counter!=0)
+                       for(int ii=0;ii<counter;ii++)
+                       {float asd=values.peek()*-1;
+                       values.pop();
+                       values.push(asd);
+                       prevcharmin=0;
+                       }
                        results.push(10f);
                     }
                     
-                   else{  values.push(applyOp(ops.pop(), values.pop(), values.pop()));results.push(10f);}
-                
+                    else{ 
+                       if(values.size()==1)
+                       {
+                      if(counter!=0)
+                       for(int ii=0;ii<counter;ii++)
+                       {
+                       float asd = values.peek()*-1;
+                       values.pop();
+                       values.push(asd);
+                       ops.pop();
+                       
+                       }
+                       }    
+                       else if(values.size()!=1)
+                       {
+                       values.push(applyOp(ops.pop(), values.pop(), values.pop(),num,tokens));results.push(10f);
+                      if(counter!=0)
+                       for(int ii=0;ii<counter;ii++)
+                       {float asd=values.peek()*-1;
+                       values.pop();
+                       values.push(asd);
+                       prevcharmin=0;
+                       }
+                       }
+                       }
                 }
+                if(counter!=0)
+                       for(int ii=0;ii<counter;ii++)
+                       {float asd=values.peek()*-1;
+                       values.pop();
+                       values.push(asd);
+                       prevcharmin=0;
+                       }
+                       counter=0;
                 ops.pop();
             }
  
@@ -1163,8 +1267,37 @@ Screen.setText(ans+"");
                 {
                      while (!ops.empty() && hasPrecedence(tokens[i], ops.peek()))
                 { 
-                    values.push(applyOp(ops.pop(), values.pop(), values.pop()));results.push(10f);}
                     
+                    if(ops.peek()=='r'||ops.peek()=='c'||ops.peek()=='s'||ops.peek()=='t'||ops.peek()=='!'||ops.peek()=='%')
+                    {
+                       values.push(applyOp(ops.pop(), '|', values.pop(),num,tokens));
+                       if(counter>0)
+                           for(int ii=0;ii<counter;ii++)
+                       {float asd=values.peek()*-1;
+                       values.pop();
+                       values.push(asd);
+                       prevcharmin=0;
+                       }
+                       counter=0;
+                       results.push(10f);
+                    }
+                    else{  
+                     values.push(applyOp(ops.pop(), values.pop(), values.pop(),num,tokens));results.push(10f);results.push(10f);
+                if(prevcharmin=='-')
+                       {float asd=values.peek()*-1;
+                       values.pop();
+                       values.push(asd);
+                       prevcharmin=0;
+                       }
+                counter=0;
+                }
+                }
+                    if(tokens[i]=='-'&&tokens[i-2]=='('&&tokens[i+2]=='(')
+                    {prevcharmin='-';
+                    tokens[i]=' ';
+                                           counter++;
+                    continue;
+                    }
                 // Push current token to 'ops'.
                 ops.push(tokens[i]);}
                 else
@@ -1180,12 +1313,27 @@ Screen.setText(ans+"");
         // Entire expression has been parsed at this point, apply remaining
         // ops to remaining values
         while (!ops.empty())
-            values.push(applyOp(ops.pop(), values.pop(), values.pop()));
+        {  values.push(applyOp(ops.pop(), values.pop(), values.pop(),num,tokens));
+        if(counter>0)
+                       for(int i=0;i<counter;i++){float asd=values.peek()*-1;
+                       values.pop();
+                       values.push(asd);
+                       prevcharmin=0;
+                       }
+        counter=0;
+        }
+        if(counter>0)
+        { float asd= values.peek();
+      for(int i=0;i<counter;i++)  asd*=-1;
+        values.pop();
+        values.push(asd);
+        }
+        counter=0;
             results.push(10f);
         // Top of 'values' contains result, return it
         return values.pop();
     }
- 
+
     // Returns true if 'op2' has higher or same precedence as 'op1',
     // otherwise returns false.
     public static boolean hasPrecedence(char op1, char op2)
@@ -1200,7 +1348,7 @@ Screen.setText(ans+"");
  
     // A utility method to apply an operator 'op' on operands 'a' 
     // and 'b'. Return the result.
- public static float applyOp(char op, float b, float a)
+ public static float applyOp(char op, float b, float a,int index,char tokens[])
     {
         switch (op)
         {
@@ -1228,17 +1376,17 @@ Screen.setText(ans+"");
                 double a11=(double)a;
                 return (float) Math.sqrt(a11);
                  case '%':
-                     if(results.empty()&&values.size()!=1)
+                    if(results.empty()&&values.size()!=1)
                      {
-                
-                return (float) (a)/100;}
-                     else 
-                     {
-                       float a10=a/100;
-                       a10=a10*(values.peek());
-                return (float) a10;
-                     }
-               
+                 
+                 return (float) (a)/100;}
+                      else 
+                      {
+                        float a10=a/100;
+                          
+                        a10=a10*(percent_num(tokens, index));
+                 return (float) a10;
+                      }
                 case 's':
                 {
                 double a12=(double)a;
@@ -1324,10 +1472,18 @@ return val;
 protected void percent(Button button ,String name )
 {
 button.setOnAction(e->{
+    
+    
     boolean flag=true;//for not duplicate ()
     text.setText("");
+     if(Prev.equals("|"))
+                Screen.setText("(%"+ans+")");
+     
+      Prev=Screen.getText();
     int open=0,closed=0;
     char arr[]=Prev.toCharArray();
+                          if(arr.length<=20)
+                         {
       if(Prev.equals("")||Prev.equals(null))
       { Prev="(%0)";
      Screen.setText(Prev);}
@@ -1385,10 +1541,48 @@ Prev=NewPrev;
  Screen.setText(Prev);
   }
         }
- 
+                         }
  
 });
 
 }
+protected static float percent_num(char [] tokens,int index)
+ {
+ float num=0f;
+   Stack<Float> val = new Stack<Float>();
+ for(int j=index;j>=0;j--)
+ {    
+ 
+ if(tokens[j]=='+'||tokens[j]=='-'||tokens[j]=='*'||tokens[j]=='/'||tokens[j]=='^')
+ {
+     for(int i=j;i>=0;i--)
+  if ((tokens[i] >= '0' && tokens[i] <= '9')||tokens[i]=='.'||tokens[i]=='p'||tokens[i]=='~')
+             {
+                 StringBuffer sbuf = new StringBuffer();
+                 // There may be more than one digits in number
+                 
+                 while ((i < tokens.length && (tokens[i] >= '0' && tokens[i] <= '9'))||tokens[i]=='.'||tokens[i]=='p'||tokens[i]=='~'||tokens[i]=='-')
+                 {  /* if(flag)
+                 {sbuf.append(prevchar+"");
+                 flag =false;}*/
+                     if(tokens[i]=='p')
+                 {sbuf.append(Math.PI);i--;}
+                     else if(tokens[i]=='~')
+                 {sbuf.append(ans);i--;}
+                     else
+                     sbuf.append(tokens[i--]);
+                 if(i<0)
+                     break;
+                 }
+                 val.push(Float.parseFloat(sbuf.reverse().toString()));
+                j=-1;
+                 break;
+                
+             }
+ }
+ }
+ return num=val.pop();
+ }
+
 }
 
